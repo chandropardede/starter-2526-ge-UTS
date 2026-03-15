@@ -1,143 +1,245 @@
-# T02 Academic Simulator
-Pada tugas kali ini anda akan mengembangkan pekerjaan sebelumnya terkait Academic Simulator. Spesifikasi-spesifikasi dari pekerjaan sebelumnya tetap digunakan dalam tugas kali ini.
+# M01 Fintech Wallet Simulator
 
-## Task 01: Add More Courses (20 pts)
-Tugas pertama anda adalah mengembangkan sebuah driver class (```academic.driver.Driver1```) yang mampu menyimulasikan kemampuan penyimpanan multiple ```academic.model.Course```. Gunakan array sebagai media penyimpanan. Lebih lanjut, driver juga harus memiliki kemampuan untuk menerima baris-baris masukan interaktif dari pengguna. Setiap baris masukan merepresentasikan data sebuah course. Sebuah baris masukan terdiri atas 4 segmen yang diseparasi dengan ```#```. Keempat segmen merepresentasikan data yang diperlukan untuk membentuk sebuah course.
+Pada tugas kali ini anda diminta untuk mengembangkan sebuah **simulator
+dompet digital (digital wallet)**. Sistem ini memungkinkan pengguna
+untuk membuat akun serta melakukan berbagai jenis transaksi keuangan.
 
-Pada saat eksekusi, driver akan terus-menerus membaca baris masukan hingga diperintahkan untuk berhenti. Perintah berhenti ditandai dengan ```---```. Perhatikan contoh berikut.
+Setiap akun memiliki: - nama pemilik - username - saldo
 
-**Input:**
-```bash
-12S2203#Object-oriented Programming#3#C
-10S1002#Pemrograman Prosedural#2#D
----
+Akun dapat menerima berbagai jenis transaksi seperti: - **deposit** -
+**withdraw** - **transfer**
 
-```
+Setiap transaksi memiliki informasi: - transaction id - waktu
+transaksi - deskripsi
 
-Setelah diperintahkan untuk berhenti, driver kemudian akan menampilkan semua courses yang tersimpan. Setiap course ditampilkan dalam satu baris keluaran dengan simbol ```|``` sebagai data separator.
+Untuk mendukung pengembangan sistem yang lebih fleksibel, transaksi
+harus direpresentasikan menggunakan **konsep pewarisan (inheritance)**.
 
-**Output:**
-```bash
-12S2203|Object-oriented Programming|3|C
-10S1002|Pemrograman Prosedural|2|D
+Semua kelas model harus ditempatkan pada package:
 
-```
+    fintech.model
 
-## Task 02: Add More Students (20 pts)
-Tugas kedua anda pada prinsipnya sama dengan **Task 01**, perbedaan terdapat pada entity yang dioperasikan yakni ```academic.model.Student``` dan driver yang ditulis (```academic.driver.Driver2```). Perhatikan contoh berikut.
+Driver class harus ditempatkan pada package:
 
-**Input:**
-```bash
-12S20999#Wiro Sableng#2020#Information Systems
-12S20111#Jaka Sembung#2019#Information Systems
----
+    fintech.driver
 
-```
+------------------------------------------------------------------------
 
-**Output:**
-```bash
-12S20999|Wiro Sableng|2020|Information Systems
-12S20111|Jaka Sembung|2019|Information Systems
+# Task 01: Manage Multiple Accounts (20 pts)
 
-```
+Driver yang dikembangkan:
 
-## Task 03: Add More Enrollments (20 pts)
-Tugas ketiga anda pada prinsipnya sama dengan **Task 01** dan **Task 02**, perbedaan terdapat pada entity yang dioperasikan yakni ```academic.model.Enrollment``` dan driver yang ditulis (```academic.driver.Driver3```). Perhatikan contoh berikut.
+    fintech.driver.Driver1
 
-**Input:**
-```bash
-12S2203#12S20999#2021/2022#even
-12S2203#12S20111#2020/2021#even
----
+Format masukan:
 
-```
+    create-account#<name>#<username>
 
-**Output:**
-```bash
-12S2203|12S20999|2021/2022|even|None
-12S2203|12S20111|2020/2021|even|None
+Program membaca masukan hingga:
 
-```
+    ---
 
-## Task 04: Add More Everything (40 pts)
-Tugas keempat merupakan penggabungan dari **Task 01**, **Task 02**, dan **Task 03**. Pada tugas ini anda diminta untuk mengembangkan sebuah driver (```academic.driver.Driver4```) yang mampu menyimulasikan kemampuan penyimpanan multiple pada semua entitas (```academic.model.Course```, ```academic.model.Student```, dan ```academic.model.Enrollment```). Untuk membedakan instruksi, ditambahkan sebuah segmen pada bagian awal input dengan spesifikasi sebagai berikut:
-1. ```course-add``` dimaksudkan untuk menambah sebuah entitas ```academic.model.Course```.
-2. ```student-add``` dimaksudkan untuk menambah sebuah entitas ```academic.model.Student```.
-3. ```enrollment-add``` dimaksudkan untuk menambah sebuah entitas ```academic.model.Enrollment```.
-Perhatikan contoh berikut.
+Output:
 
-**Input:**
-```bash
-course-add#12S2203#Object-oriented Programming#3#C
-course-add#10S1002#Pemrograman Prosedural#2#D
-student-add#12S20999#Wiro Sableng#2020#Information Systems
-enrollment-add#12S2203#12S20999#2021/2022#even
-student-add#12S20111#Jaka Sembung#2019#Information Systems
-enrollment-add#12S2203#12S20111#2020/2021#even
----
+    username|name|balance
 
-```
+Saldo awal:
 
-**Output:**
-```bash
-12S2203|Object-oriented Programming|3|C
-10S1002|Pemrograman Prosedural|2|D
-12S20999|Wiro Sableng|2020|Information Systems
-12S20111|Jaka Sembung|2019|Information Systems
-12S2203|12S20999|2021/2022|even|None
-12S2203|12S20111|2020/2021|even|None
+    0.0
 
-```
+### Contoh Input
 
-Pada saat mengampilkan keluaran, terlebih dahulu ditampilkan entitas ```academic.model.Course```, kemudian ```academic.model.Student```, dan diikuti dengan ```academic.model.Enrollment```.
+    create-account#Wiro Sableng#wirsab
+    create-account#Jaka Sembung#jaksem
+    ---
 
-** How to compile and run?
-Sebelum melakukan kompilasi, pastikan posisi dari current directory anda adalah pada direktori ```bin```. Bila direktori tersebut tidak ada, silakan ditambahkan secara manual.
+### Output
 
-Untuk mengkompilasi pekerjaan anda, gunakan perintah berikut:
+    wirsab|Wiro Sableng|0.0
+    jaksem|Jaka Sembung|0.0
 
-```bash
-cd bin
-javac ..\src\academic\driver\*.java ..\src\academic\model\*.java -d .
+------------------------------------------------------------------------
 
-```
+# Task 02: Support Deposit and Withdraw (25 pts)
 
-Selanjutnya, untuk mengeksekusi pekerjaan anda, gunakan perintah berikut:
+Tambahkan kelas abstrak:
 
-```bash
-java academic.driver.Driver
+    fintech.model.Transaction
 
-```
+Properti minimal:
 
-Sesuaikan driver class yang akan dieksekusi.
+    id
+    username
+    amount
+    timestamp
+    description
 
-## Reporting
-Lakukan pertemuan dengan pair anda untuk mendiskusikan persoalan dan pengembangan solusi. Rekaman dari pertemuan tersebut menjadi bagian dari artefak tugas yang harus dikumpulkan. Durasi rekaman minimal **30 menit**.
+Subclass:
 
-Presentasikan pekerjaan anda dalam sebuah video. Pada presentasi:
-1. Jabarkan solusi anda kelas-per-kelas.
-2. Berikan rationale dari setiap implementasi yang anda hasilkan serta berikan argumen mengapa pilihan implementasi anda merupakan pilihan terbaik.
-3. Jabarkan alir eksekusi dari solusi anda.
-4. Demonstrasikan pekerjaan anda.
-5. Tunjukkan hasil yang anda peroleh dari GitHub Classroom.
-6. Sebutkan kendala yang dihadapi dalam pengerjaan tugas kali ini.
+    DepositTransaction
+    WithdrawTransaction
 
-Note: Semakin tajam argumen dan penjabaran anda semakin mudah penilaian dilakukan.
+Driver:
 
-Kriteria Video Presentasi:
-+ Fullscreen (taskbar terlihat).
-+ Suara jernih dan dapat dengan jelas terdengar.
-+ Posting video anda di YouTube, di-set "Not For Kids" dengan visibility Unlisted.
+    fintech.driver.Driver2
 
-## Submission
-1. ```src/academic/model/Course.java```;
-2. ```src/academic/model/Student.java```;
-3. ```src/academic/model/Enrollment.java```;
-4. ```src/academic/driver/Driver1.java```;
-5. ```src/academic/driver/Driver2.java```;
-6. ```src/academic/driver/Driver3.java```;
-7. ```src/academic/driver/Driver4.java```;
-8. changelog.txt
+Format input:
 
-## How to submit?
-Please see https://youtu.be/ZOhgmVjWFyo
+Deposit
+
+    deposit#<username>#<amount>#<timestamp>#<description>
+
+Withdraw
+
+    withdraw#<username>#<amount>#<timestamp>#<description>
+
+Withdraw tidak boleh menyebabkan saldo negatif.
+
+### Contoh Input
+
+    create-account#Jaka Sembung#jaksem
+    deposit#jaksem#100.0#2023/02/14 10:10:10#Salary
+    withdraw#jaksem#30.0#2023/02/15 11:00:00#Food
+    ---
+
+### Output
+
+    jaksem|Jaka Sembung|70.0
+
+------------------------------------------------------------------------
+
+# Task 03: Transfer Between Accounts (25 pts)
+
+Subclass baru:
+
+    TransferTransaction
+
+Format input:
+
+    transfer#<sender>#<receiver>#<amount>#<timestamp>#<description>
+
+Aturan:
+
+1.  saldo pengirim tidak boleh negatif
+2.  saldo penerima bertambah
+3.  transaksi tercatat
+
+Driver:
+
+    fintech.driver.Driver3
+
+### Contoh Input
+
+    create-account#Naruto Uzumaki#naruto
+    create-account#Sasuke Uchiha#sasuke
+    deposit#naruto#100.0#2023/02/14 10:10:10#Mission reward
+    transfer#naruto#sasuke#40.0#2023/02/15 12:00:00#Team fund
+    ---
+
+### Output
+
+    naruto|Naruto Uzumaki|60.0
+    sasuke|Sasuke Uchiha|40.0
+
+------------------------------------------------------------------------
+
+# Task 04: Transaction History and Exception (30 pts)
+
+Driver:
+
+    fintech.driver.Driver4
+
+Perintah tambahan:
+
+    show-account#<username>
+
+Format akun:
+
+    username|name|balance
+
+Format transaksi:
+
+    transaction_id|type|amount|timestamp|description
+
+Transaksi harus diurutkan berdasarkan **timestamp ascending**.
+
+## Custom Exception
+
+Buat class:
+
+    NegativeBalanceException
+
+Exception dibangkitkan ketika withdraw atau transfer menyebabkan saldo
+negatif.
+
+Program **tidak boleh berhenti**.
+
+### Contoh Input
+
+    create-account#Wiro Sableng#wirsab
+    deposit#wirsab#50.0#2023/02/14 10:10:10#Income
+    withdraw#wirsab#20.0#2023/02/15 11:00:00#Food
+    withdraw#wirsab#40.0#2023/02/16 09:00:00#Shopping
+    show-account#wirsab
+    ---
+
+### Output
+
+    wirsab|Wiro Sableng|30.0
+    1|deposit|50.0|2023/02/14 10:10:10|Income
+    2|withdraw|-20.0|2023/02/15 11:00:00|Food
+
+------------------------------------------------------------------------
+
+# How to Compile and Run
+
+Pastikan posisi berada pada direktori:
+
+    bin
+
+Compile:
+
+    cd bin
+    javac ..\\src\\fintech\\driver\\*.java ..\\src\\fintech\\model\\*.java -d .
+
+Run:
+
+    java fintech.driver.Driver4
+
+------------------------------------------------------------------------
+
+# Reporting
+
+Lakukan diskusi dengan pair anda dan rekam pertemuan tersebut.
+
+Durasi minimal **30 menit**.
+
+Pada presentasi:
+
+1.  Jelaskan desain kelas
+2.  Jelaskan penggunaan inheritance
+3.  Jelaskan polymorphism
+4.  Jelaskan mekanisme exception
+5.  Demonstrasikan program
+6.  Tunjukkan hasil GitHub Classroom
+
+------------------------------------------------------------------------
+
+# Kriteria Video
+
+-   Fullscreen
+-   Suara jelas
+-   Upload ke YouTube
+-   Visibility **Unlisted**
+-   Set **Not For Kids**
+
+------------------------------------------------------------------------
+
+# Submission
+
+    src/fintech/model/*.java
+    src/fintech/driver/Driver1.java
+    src/fintech/driver/Driver2.java
+    src/fintech/driver/Driver3.java
+    src/fintech/driver/Driver4.java
+    changelog.txt
